@@ -79,3 +79,10 @@ The bundled role index is derived from [`jnMetaCode/agency-agents-zh`](https://g
 ## License
 
 MIT. See [LICENSE](LICENSE), [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md), and the bundled upstream license in [THIRD_PARTY_LICENSES](THIRD_PARTY_LICENSES/agency-agents-zh-LICENSE).
+
+## Community / 社区与网站
+
+- QQ 2群：`227075481`
+- Telegram 交流群：[点击加入](https://t.me/+SmQkUl6XiBNiMTVk)
+- 官网：[https://www.aiaiai001.com/](https://www.aiaiai001.com/)
+- 中转站官网：[https://api.aiaiai001.com/](https://api.aiaiai001.com/)
