@@ -1,5 +1,7 @@
 # Execution Prompt Builder
 
+[![Available on skills.sh](https://img.shields.io/badge/skills.sh-Available-111111)](https://www.skills.sh/936220035/execution-prompt-builder/execution-prompt-builder)
+
 [中文](#中文) | [English](#english)
 
 把一句还没想完整的需求，整理成另一个 Agent 可以直接执行、检查和验收的任务提示词。
@@ -98,6 +100,14 @@ Skill 不会立刻编造一份笼统的长提示词。它会先自动推荐角�
 
 ### 安装到 Codex
 
+推荐使用 skills.sh 提供的官方命令：
+
+```powershell
+npx skills add https://github.com/936220035/execution-prompt-builder --skill execution-prompt-builder
+```
+
+也可以按下面的方式手动安装。
+
 要求：已安装 Git 和 Python 3。角色搜索与更新脚本只使用 Python 3 标准库，不需要额外安装 Python 包。
 
 克隆仓库后，把仓库内层的完整 `execution-prompt-builder` 文件夹复制到 Codex Skill 目录。不要只复制 `SKILL.md`，因为运行时还需要 `references`、`scripts` 和 `agents`。
@@ -193,6 +203,14 @@ It is designed to prevent a common failure mode in agent handoffs: the request s
 The Skill builds prompts only. It does not execute the requested code changes, deployments, messages, deletions, or other external actions.
 
 ### Install for Codex
+
+Recommended installation through the official skills CLI:
+
+```bash
+npx skills add https://github.com/936220035/execution-prompt-builder --skill execution-prompt-builder
+```
+
+You can also install it manually using the steps below.
 
 Requirements: Git and Python 3. The bundled role search and refresh tools use only the Python 3 standard library.
 
