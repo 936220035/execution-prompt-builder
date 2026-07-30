@@ -68,7 +68,7 @@ Execution Prompt Builder 会把这些缺口转成少量高价值问题，并把�
 帮我把网站登录功能优化一下，然后交给另一个 Agent 做。
 ```
 
-Skill 不会立刻编造一份笼统的长提示词。它会先自动推荐角色，例如“认证流程工程师”为主角色、“安全审查”为辅助视角，然后只询问当前最影响结果的问题：
+Skill 不会立刻编造一份笼统的长提示词。它会先自动推荐角色，再从本仓库自写的方法索引中选择工作方法。例如“认证流程工程师”为主角色、“安全审查”为辅助视角；登录排错不使用产品方法，而产品需求可以选择 PRD 与验收设计。然后它只询问当前最影响结果的问题：
 
 ```text
 这次最重要的是减少登录失败、提升登录速度，还是增加新的登录方式？
@@ -194,11 +194,12 @@ It is designed to prevent a common failure mode in agent handoffs: the request s
 
 1. Understands the initial request and available context.
 2. Selects one primary role and up to two useful supporting perspectives.
-3. Shows the role selection so the user can change it.
-4. Reads safe, relevant project context before asking for facts that are already available.
-5. Asks at most one high-impact question per turn.
-6. Produces a full prompt, a compact prompt, and a list of facts the execution agent must still verify.
-7. Checks the handoff for permission ambiguity, unverifiable claims, conflicting instructions, and exposed secrets.
+3. Independently selects zero to three work methods, with product-method gates for operational and incident tasks.
+4. Shows the role and method selection so the user can change it.
+5. Reads safe, relevant project context before asking for facts that are already available.
+6. Asks at most one high-impact question per turn.
+7. Produces a full prompt, a compact prompt, and a list of facts the execution agent must still verify.
+8. Checks the handoff for permission ambiguity, unverifiable claims, conflicting instructions, and exposed secrets.
 
 The Skill builds prompts only. It does not execute the requested code changes, deployments, messages, deletions, or other external actions.
 
@@ -237,11 +238,15 @@ execution-prompt-builder/
     ├── agents/
     ├── references/
     └── scripts/
+├── tests/
+└── .gitignore
 ```
 
 ## Attribution
 
 The bundled role index is derived from [`jnMetaCode/agency-agents-zh`](https://github.com/jnMetaCode/agency-agents-zh) at pinned commit `77f3f4c1477702e66ab56b1bf54e9b922c9d46db`, under the MIT License. External role metadata is treated as untrusted reference data and sanitized before use.
+
+The work-method index, routing rules, and templates in this repository are original implementation material with no external method-layer runtime dependency. The method layer is deliberately separate from the MIT role metadata: it determines how to work, while role routing determines who owns the result.
 
 ## Community / 社区与网站
 
