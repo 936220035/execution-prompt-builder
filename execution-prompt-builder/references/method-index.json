@@ -1,0 +1,78 @@
+{
+  "schema_version": 1,
+  "source": "Original method metadata authored for execution-prompt-builder.",
+  "methods": [
+    {
+      "id": "problem-framing",
+      "name_zh": "问题定义",
+      "name_en": "Problem framing",
+      "family": "discovery",
+      "keywords": ["问题定义", "需求澄清", "目标用户", "痛点", "机会", "problem", "outcome", "user need", "job to be done", "jtbd"],
+      "contract": "明确目标用户、现状、要解决的问题、成功信号和不做什么。"
+    },
+    {
+      "id": "user-research",
+      "name_zh": "用户访谈",
+      "name_en": "User research",
+      "family": "discovery",
+      "keywords": ["用户访谈", "访谈", "调研", "用户需求", "反馈", "可用性", "interview", "research", "discovery call", "usability", "customer feedback"],
+      "contract": "用可验证的问题和样本计划理解行为、动机及反例，不把假设当结论。"
+    },
+    {
+      "id": "product-spec",
+      "name_zh": "PRD 与验收设计",
+      "name_en": "Product specification",
+      "family": "definition",
+      "keywords": ["prd", "需求文档", "用户故事", "验收标准", "mvp", "原型", "product requirement", "user story", "acceptance criteria", "minimum viable product"],
+      "contract": "将目标转成用户故事、范围、流程、边界条件和可观察的验收标准。"
+    },
+    {
+      "id": "prioritization",
+      "name_zh": "优先级与路线图",
+      "name_en": "Prioritization and roadmap",
+      "family": "planning",
+      "keywords": ["优先级", "路线图", "排期", "取舍", "投入", "rice", "ice", "kano", "priority", "roadmap", "tradeoff", "prioritize", "investment decision"],
+      "contract": "用显式影响、成本、风险和不确定性比较选项，并保留决策依据。"
+    },
+    {
+      "id": "pricing-packaging",
+      "name_zh": "定价与套餐",
+      "name_en": "Pricing and packaging",
+      "family": "commercial",
+      "keywords": ["定价", "套餐", "订阅", "免费试用", "价格", "付费", "pricing", "package", "packaging", "plan", "subscription", "free trial"],
+      "contract": "定义目标客群、价值指标、套餐边界、实验假设和收入风险，不虚构市场数据。"
+    },
+    {
+      "id": "saas-metrics",
+      "name_zh": "SaaS 指标分析",
+      "name_en": "SaaS metrics",
+      "family": "commercial",
+      "keywords": ["saas", "留存", "流失", "转化", "活跃", "mrr", "arr", "lTV", "ltv", "cac", "churn", "retention", "activation", "conversion"],
+      "contract": "先定义指标口径、时间窗口和数据质量，再判断增长、留存或单位经济性。"
+    },
+    {
+      "id": "market-research",
+      "name_zh": "竞品与市场研究",
+      "name_en": "Market and competitor research",
+      "family": "commercial",
+      "keywords": ["竞品", "市场研究", "行业", "市场规模", "替代品", "竞争", "competitor", "market research", "market size", "alternative", "landscape"],
+      "contract": "区分一手证据、二手资料与假设，比较替代方案而非只堆砌功能。"
+    },
+    {
+      "id": "stakeholder-alignment",
+      "name_zh": "利益相关者对齐",
+      "name_en": "Stakeholder alignment",
+      "family": "coordination",
+      "keywords": ["利益相关者", "对齐", "共识", "汇报", "评审", "决策者", "stakeholder", "alignment", "buy-in", "decision maker", "review meeting"],
+      "contract": "明确决策人、受影响方、分歧、依赖和记录方式，避免把知会误当批准。"
+    },
+    {
+      "id": "agent-orchestration",
+      "name_zh": "Agent 协作与上下文管理",
+      "name_en": "Agent orchestration and context management",
+      "family": "agent",
+      "keywords": ["agent", "智能体", "多 agent", "多智能体", "提示词", "交接", "上下文", "协作", "prompt", "handoff", "context management", "multi-agent", "orchestration"],
+      "contract": "拆分职责和输入输出合同，限制上下文，定义交接证据与升级条件。"
+    }
+  ]
+}

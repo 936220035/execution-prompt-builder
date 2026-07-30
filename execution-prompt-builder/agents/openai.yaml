@@ -1,4 +1,4 @@
 interface:
   display_name: "执行提示词构建器"
-  short_description: "通过动态选角和逐轮反问，生成可直接交给执行 Agent 的提示词"
-  default_prompt: "使用 $execution-prompt-builder 自动选择合适的专家角色，通过逐轮反问完善我的需求，并生成可直接交给执行 Agent 的提示词。"
+  short_description: "通过独立选角、方法路由和逐轮反问生成执行提示词"
+  default_prompt: "使用 $execution-prompt-builder 自动选择合适的专家角色和工作方法，通过逐轮反问完善我的需求，并生成可直接交给执行 Agent 的提示词。"

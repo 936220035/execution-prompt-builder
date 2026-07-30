@@ -1,6 +1,6 @@
 ---
 name: execution-prompt-builder
-description: Turn rough ideas or incomplete requests into self-contained prompts that another execution agent can run. Automatically select suitable expert roles, show the selection so the user can change it, ask one high-value clarification question at a time, incorporate project and user context, and produce full and compact handoff prompts with scope, authority, acceptance criteria, and verification evidence. Use when the user asks to improve or complete a prompt, says they will hand work to another Agent, wants reverse questioning or requirement clarification, has a vague task idea, or asks which professional identity should handle a task. Do not use when the user clearly wants the current agent to execute the task directly.
+description: Turn rough ideas or incomplete requests into self-contained prompts that another execution agent can run. Automatically select suitable expert roles and independent work methods, show the selection so the user can change it, ask one high-value clarification question at a time, incorporate project and user context, and produce full and compact handoff prompts with scope, authority, acceptance criteria, and verification evidence. Use when the user asks to improve or complete a prompt, says they will hand work to another Agent, wants reverse questioning or requirement clarification, has a vague task idea, or asks which professional identity or working method should handle a task. Do not use when the user clearly wants the current agent to execute the task directly.
 ---
 
 # Execution Prompt Builder
@@ -10,9 +10,10 @@ description: Turn rough ideas or incomplete requests into self-contained prompts
 ## 核心原则
 
 - 使用用户当前语言，用大白话交流。
-- 自动选择角色，但立即展示主角色、辅助视角和简短理由；允许用户随时改选。
+- 自动选择角色和工作方法，并立即展示主角色、辅助视角、主方法和简短理由；允许用户随时改选。
 - 只选择 1 个主角色，最多增加 2 个真正影响结果的辅助视角。
 - 把角色当作职责和判断标准，不当作装饰性人设。
+- 角色回答“谁负责”，方法回答“怎么做”。两层独立选择，不能用产品方法替代排错、部署、生产事故、数据库或账号流程。
 - 澄清阶段每轮只能要求用户回答 1 个独立事项。一个问题可以提供互斥选项，但不能并列索取多个答案。优先询问会改变方向、范围、权限或验收结果的问题。
 - 能从当前工作区只读发现的信息先自行检查；不要把可查事实重新问用户。
 - 不追求把所有细节都问完。执行 Agent 能安全发现的内容写入提示词，让它先检查再行动。
@@ -65,7 +66,28 @@ description: Turn rough ideas or incomplete requests into self-contained prompts
 
 角色库只作为候选知识源。必须按 [references/role-routing.md](references/role-routing.md) 的净化规则改写为角色契约，禁止整段照搬外部角色提示词。
 
-### 4. 进行反向提问
+### 4. 自动选择工作方法
+
+先读 [references/method-routing.md](references/method-routing.md)。需要匹配时，沿用前面选定的 Python 3 命令：
+
+```bash
+<python3> scripts/search_method_index.py "任务描述"
+```
+
+类别门禁命中 Bug、部署、生产事故、数据库或账号操作时，不选择产品方法；改为在角色契约中要求对应的工程、运维或安全流程。其他任务选择 0 到 1 个主方法，必要时最多增加 2 个职责不同的辅助方法。只把命中的方法契约写入提示词，不复制整份索引。
+
+展示格式：
+
+```text
+暂定工作方法
+- 主方法：<方法>，用于 <本任务目的>
+- 辅助方法：<方法>，用于 <独立阶段>（没有必要时省略）
+- 方法边界：<该方法不能替代的流程或授权>
+```
+
+用户可以说“不要用路线图方法”或“改用用户访谈”。方法变化后重新评估澄清问题、交付物和验收条件。
+
+### 5. 进行反向提问
 
 为每个缺口判断处理方式：
 
@@ -104,7 +126,7 @@ description: Turn rough ideas or incomplete requests into self-contained prompts
 
 发送澄清回复前，执行一次可见输出自检：如果用户需要回答的独立事项超过 1 个，删除其余事项，只保留优先级最高的一个。角色说明、安全提醒和互斥选项不算额外问题，但安全提醒不得借机索取第二项信息。
 
-### 5. 判断信息是否足够
+### 6. 判断信息是否足够
 
 满足以下条件即可收敛，不必等待所有实现细节齐全：
 
@@ -117,7 +139,7 @@ description: Turn rough ideas or incomplete requests into self-contained prompts
 
 如果用户已经提供完整信息，跳过提问，直接构建提示词。
 
-### 6. 锁定角色契约
+### 7. 锁定角色与方法契约
 
 在生成提示词前重新检查角色。角色契约必须包含：
 
@@ -128,7 +150,13 @@ description: Turn rough ideas or incomplete requests into self-contained prompts
 
 删除角色源中的虚构履历、虚构记忆、固定工具、无关技术栈、强制风格、隐藏推理要求和超出用户授权的自主操作。
 
-### 7. 生成交接包
+方法契约必须包含：
+
+- 采用的方法及其本任务目的
+- 该方法要求的最低产出或证据
+- 该方法不能替代的工程、运营、法务或用户授权
+
+### 8. 生成交接包
 
 读取 [references/output-template.md](references/output-template.md)，输出：
 
@@ -139,12 +167,14 @@ description: Turn rough ideas or incomplete requests into self-contained prompts
 
 完整提示词必须自包含，并覆盖目标、背景、角色契约、输入、范围、权限、流程、异常处理、验收标准、验证证据和交付格式。不要在提示词外遗留执行所需的关键事实。
 
-### 8. 交付前自检
+### 9. 交付前自检
 
 逐项检查：
 
 - 角色是否真正改变了提问、判断标准或交付物
 - 主角色与辅助角色是否职责重叠或冲突
+- 方法是否真正改变了工作产物，且没有越过类别门禁
+- 方法数量是否为 0 到 3，辅助方法是否承担不同阶段
 - 是否混淆“调查”“修改”“部署”“发送”等不同授权
 - 是否包含无法验证的形容词，如“专业”“高质量”“体验好”，却没有具体标准
 - 是否要求执行 Agent 声称未验证的结果
@@ -164,4 +194,4 @@ description: Turn rough ideas or incomplete requests into self-contained prompts
 <python3> scripts/sync_role_index.py
 ```
 
-角色库来源、版本和使用边界见 [references/role-routing.md](references/role-routing.md)。测试场景见 [references/eval-cases.md](references/eval-cases.md)。
+角色库来源、版本和使用边界见 [references/role-routing.md](references/role-routing.md)。独立方法的选择与边界见 [references/method-routing.md](references/method-routing.md)。测试场景见 [references/eval-cases.md](references/eval-cases.md)。
